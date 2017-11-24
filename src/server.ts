@@ -35,7 +35,13 @@ app.get("/api/*",(req,res)=> {
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
 app.get('*', (req, res) => {
-  res.render('index', { req });
+  res.render('index', { 
+      req : req,
+      providers: [{
+        provide: 'serverUrl',
+        useValue: `http://localhost:8080`
+      }]
+    });
 });
 
 app.listen(PORT, () => {

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
+
+const DOGS_KEY = makeStateKey('dogs');
 
 @Component({
   selector: 'app-root',
@@ -12,15 +15,25 @@ export class AppComponent {
   dogs: any;
   
     constructor(
-      private http: HttpClient
+      private http: HttpClient,
+      private state: TransferState
     ) { }
   
     ngOnInit() {
-      this.http
-        .get('http://localhost:4200/api/getData')
-        .subscribe(data => {
-          console.log(data);
-          this.dogs = data;
+
+      this.dogs = this.state.get(DOGS_KEY, null as any);
+
+      if (!this.dogs) {
+        this.http
+        .get('/api/getData')
+        .subscribe(
+          (data) => {
+            this.state.set(DOGS_KEY, data as any);
+            this.dogs = data;
+          },
+          (error) => {
+            console.log(error);
         });
+      }
     }
 }
