@@ -63,5 +63,10 @@ cd universal-demo
   
   </pre>
   
+  # To run the application
+  
+  <pre>
+  npm run build && node dist/server.js
+  </pre>
 
   
