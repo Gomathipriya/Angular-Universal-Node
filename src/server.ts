@@ -17,12 +17,27 @@ const app = express();
 const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html')).toString();
 const { AppServerModuleNgFactory } = require('main.server');
 
-app.engine('html', (_, options, callback) => {
-  const opts = { document: template, url: options.req.url };
+// Express Engine
+import { ngExpressEngine } from '@nguniversal/express-engine';
 
-  renderModuleFactory(AppServerModuleNgFactory, opts)
-    .then(html => callback(null, html));
-});
+/* Server-side rendering */
+  function angularRouter(req, res) {
+    res.render(join(DIST_FOLDER, 'browser','index.html'), {
+        req: req,
+        res: res,
+        providers: [{
+          provide: 'serverUrl',
+          useValue: `http://localhost:4200`
+        }]
+      });
+    
+    }
+//app.get('/', angularRouter);
+
+  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
+app.engine('html', ngExpressEngine({
+  bootstrap: AppServerModuleNgFactory
+}));
 
 app.set('view engine', 'html');
 app.set('views', 'src')
@@ -34,15 +49,7 @@ app.get("/api/*",(req,res)=> {
 
 app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
-app.get('*', (req, res) => {
-  res.render('index', { 
-      req : req,
-      providers: [{
-        provide: 'serverUrl',
-        useValue: `http://localhost:8080`
-      }]
-    });
-});
+app.get('*',angularRouter);
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
