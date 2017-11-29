@@ -57,7 +57,7 @@ cd universal-demo
   
   <pre>
   
-  npm install -S @angular/platform-server@^5.0.0-rc.1 express 
+  npm install -S @angular/platform-server@^5.0.0-rc.1 @nguniversal/express-engine 
   npm install -D ts-loader webpack-node-externals npm-run-all
   npm install
   
