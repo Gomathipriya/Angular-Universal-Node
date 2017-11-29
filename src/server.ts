@@ -28,6 +28,9 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
         providers: [{
           provide: 'serverUrl',
           useValue: `http://localhost:4200`
+        },{
+          provide: 'token',
+          useValue: 'xxx'
         }]
       });
     
@@ -43,7 +46,7 @@ app.set('view engine', 'html');
 app.set('views', 'src')
 
 app.get("/api/*",(req,res)=> {
-    console.log("Hi");
+    console.log(req.headers.authorization);
     res.send({"message":"success"});
 });
 
