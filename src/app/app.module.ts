@@ -4,9 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-import { CookieInterceptor } from './cookie.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
 @NgModule({
   declarations: [
     AppComponent
@@ -16,11 +13,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     HttpClientModule,
     BrowserTransferStateModule
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: CookieInterceptor,
-    multi: true
-  }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

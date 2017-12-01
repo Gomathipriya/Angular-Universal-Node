@@ -35,14 +35,14 @@ export class AppComponent {
       let _headers = _httpHeader.set('Authorization','Bearer '+this.tokenKey);
       //if (!this.data) {
         this.http
-        .get('/api/getData')
+        .get('/api/getData',{headers: _headers})
         .subscribe(
           (data) => {
             this.state.set(DATA_KEY, data as any);
             this.data = data;
           },
           (error) => {
-            console.log(error);
+            console.log("error"+error);
         });
       //}
     }
