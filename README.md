@@ -42,14 +42,14 @@ Note: Both Search Engine and Social medias use HTML to utilize the meta tags and
 
 ## Pitfall 4 - API calls
 
-*  API calls are made one on server side rendering and another on Angular bootstrap
-*  Above caused 
+1  API calls are made one on server side rendering and another on Angular bootstrap
+2  Above caused 
   -   unnecessary server load 
   -   Reloading the page
   -   Causes flickering
-*  Affects mobile view rendering
-*  Can be fixed with Transfer state 
-*  BrowserTransferState module and ServerTransferState module can be used to communicate between server and client.
+3  Affects mobile view rendering
+4  Can be fixed with Transfer state 
+5  BrowserTransferState module and ServerTransferState module can be used to communicate between server and client.
 
 
 
