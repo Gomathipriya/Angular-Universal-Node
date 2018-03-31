@@ -1,3 +1,11 @@
+
+# Angular Universal Introduction
+
+.  Supports Angular to run on both browser and server
+.  Angular is just a Html parser which converts typescript into Javascript which in turn creates a parsed html on run time to render a page in browser
+.  In normal Angular rendering html requires full angular framework to be downloaded but in universal, server creates a parsed html which is rendered in the browser
+
+
 # UniversalDemo
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
