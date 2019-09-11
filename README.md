@@ -121,4 +121,28 @@ cd universal-demo
   npm run build && node dist/server.js
   </pre>
 
+
+Angular applications are Single-Page Applications. This process can also be referred to as client-side rendering (CSR). On the flip side, Angular Universal is the process of server-side rendering (SSR) your application to a String or HTML, where instead of occurring on the Browser, it is done on the Server (Node.js in our case)
+
+Reference : https://angular.io/guide/universal
+
+angular.json: projects.{{project-name}}.architect.build.options.outputPath changes to “dist/browser”; and a new projects.{{project-name}}.architect is added, called “server”. This lets the Angular CLI know about our server/Universal version of the Angular application
+package.json: besides adding a few new dependencies (universal related dependency),there are new scripts:
+build:nonprod for building dev/sit/uat environment with non prod configuration
+build:preview for building preview environment  with preview configuration
+build:dynamic for building production environment with production configuration
+serve:dynamic for serving node js code
+server.js: NodeJS Express server.  app.engine('html', ngExpressEngine()) makes the universal work.
+webpack.server.config.js: the webpack configuration for bundling the Express/Universal server.
+main.server.ts: this new file basically only exports the AppServerModule, which is the entry point of the Universal version of the application.
+tsconfig.server.json: this tells the Angular compiler where to find the entry module for the Universal application.
+app.module.ts: modified to execute the static method .withServerTransition on the imported BrowserModule. This tells the browser version of the application that the client will be transitioning in from the server version at some point.
+app.server.module.ts: this is the root module for the server version only. You can see it imports our AppModule, as well as the ServerModule from @angular/platform-server, and bootstraps the same AppComponent as AppModule. AppServerModule is the entry point of the Universal application
+
+Steps of Do's & Don'ts for team while doing development
+
+Browser-specific objects, such as window, document, or location. These don’t exist on the server. If you do truly need them, wrap their usage in a conditional statement, so that they’ll only be used by Angular on the browser. You can do this by importing the functions isPlatformBrowser and isPlatformServer from @angular/common, injecting the PLATFORM_ID token into your component, and running the imported functions to see whether you’re on the server or the browser. Or you can check if document or window is defined and then proceed accordingly
+If you use ElementRef to get a handle on an HTML element, don’t use the nativeElement to manipulate attributes on the element. Instead, inject Renderer2
+Avoid the use of setTimeout, where possible
+Make all URLs for server requests absolute. Requests for data from relative URLs will fail when running from the server, even if the server can handle relative URLs.
   
